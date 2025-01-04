@@ -1,11 +1,11 @@
 ﻿using OOP_Zadanie_1.Models;
 using OOP_Zadanie_1.Services;
 
-LinkedListService linkedStudents = new LinkedListService();
+LinkedListService linkedStudentsService = new LinkedListService();
 
 while (true)
 {
-    Console.WriteLine("\nEnter 1 to add/update a student, 2 to display students, 0 to exit:");
+    Console.WriteLine("\nEnter 1 add/update a student, 2 search student by his surname, 4 display all students, 0 exit");
     var input = Console.ReadLine();
 
     switch (input)
@@ -28,13 +28,24 @@ while (true)
                     StudentNumber = studentNumber
                 };
 
-                linkedStudents.AddOrUpdateStudent(newStudent);
+                linkedStudentsService.AddOrUpdateStudent(newStudent);
                 break;
             }
 
         case "2":
             {
-                Console.WriteLine("Search by surname is not implemented");
+                Console.Write("Search student by surname: ");
+                var surname = Console.ReadLine();
+                var wasStudentFound = linkedStudentsService.TrySearchStudentBySurname(surname, out var student);
+                if (!wasStudentFound)
+                {
+                    Console.WriteLine($"Student with surname: '{surname}' was not found.");
+                }
+                else
+                {
+                    linkedStudentsService.DisplaySingleStudent(student);
+                }
+
                 break;
             }
         case "3":
@@ -44,7 +55,7 @@ while (true)
             }
         case "4":
             {
-                linkedStudents.DisplayAllStudents();
+                linkedStudentsService.DisplayAllStudents();
                 break;
             }
         case "5":

@@ -11,7 +11,7 @@ namespace OOP_Zadanie_1.Services
             var isListEmpty = head == null;
             if (isListEmpty)
             {
-                var newNode = new Node { Summary = student };
+                var newNode = new Node { Student = student };
                 head = newNode;
                 Console.WriteLine($"Added new student with number: '{student.StudentNumber}'");
                 return;
@@ -20,7 +20,7 @@ namespace OOP_Zadanie_1.Services
             var currentNode = head;
             while (true)
             {
-                var hasCurrentNodeSameStudentId = currentNode.Summary.StudentNumber == student.StudentNumber;
+                var hasCurrentNodeSameStudentId = currentNode.Student.StudentNumber == student.StudentNumber;
                 if (hasCurrentNodeSameStudentId)
                 {
                     UpdateStudent(currentNode, student);
@@ -30,10 +30,40 @@ namespace OOP_Zadanie_1.Services
 
                 if (IsLastNode(currentNode))
                 {
-                    var newNode = new Node { Summary = student };
+                    var newNode = new Node { Student = student };
                     currentNode.Next = newNode;
                     Console.WriteLine($"Added new student: '{student.Name} {student.Surname}' with number: '{student.StudentNumber}'");
                     break;
+                }
+
+                currentNode = currentNode.Next;
+            }
+        }
+
+        public bool TrySearchStudentBySurname(string surname, out Student? student)
+        {
+            student = null;
+
+            if (head == null)
+            {
+                return false;
+            }
+
+            surname.Trim();
+            var currentNode = head;
+            while (true)
+            {
+                var isEndOfList = currentNode == null;
+                if (isEndOfList)
+                {
+                    return false;
+                }
+
+                var hasCurrentNodeSameSurname = currentNode.Student.Surname == surname;
+                if (hasCurrentNodeSameSurname)
+                {
+                    student = currentNode.Student;
+                    return true;
                 }
 
                 currentNode = currentNode.Next;
@@ -58,15 +88,20 @@ namespace OOP_Zadanie_1.Services
                     break;
                 }
 
-                Console.WriteLine($"Name: {currentNode.Summary.Name}, Surname: {currentNode.Summary.Surname}, Number: {currentNode.Summary.StudentNumber}");
+                Console.WriteLine($"Name: {currentNode.Student.Name}, Surname: {currentNode.Student.Surname}, Number: {currentNode.Student.StudentNumber}");
                 currentNode = currentNode.Next;
             }
         }
 
+        public void DisplaySingleStudent(Student student)
+        {
+            Console.WriteLine($"Name: {student.Name}, Surname: {student.Surname}, Number: {student.StudentNumber}");
+        }
+
         private void UpdateStudent(Node currentNode, Student newStudent)
         {
-            currentNode.Summary.Name = newStudent.Name;
-            currentNode.Summary.Surname = newStudent.Surname;
+            currentNode.Student.Name = newStudent.Name;
+            currentNode.Student.Surname = newStudent.Surname;
         }
 
         private bool IsLastNode(Node currentNode)
