@@ -1,45 +1,40 @@
 ﻿using OOP_Zadanie_1.Models;
 using OOP_Zadanie_1.Services;
 
-LinkedListService linkedStudentsService = new LinkedListService();
+var linkedStudentsService = new LinkedListService();
+var inputService = new ConsoleInputService();
 
 while (true)
 {
-    Console.WriteLine("\nEnter 1 add/update a student, 2 search student by his surname, 4 display all students, 0 exit");
+    Console.WriteLine("\nEnter 1 add/update a student, 2 search student by his surname, 3 search student by his number, 4 display all students, 0 exit");
     var input = Console.ReadLine();
 
     switch (input)
     {
         case "1":
             {
-                Console.Write("Enter student name: ");
-                var name = Console.ReadLine();
-
-                Console.Write("Enter student surname: ");
-                var surname = Console.ReadLine();
-
-                Console.Write("Enter student number: ");
-                var studentNumber = Console.ReadLine();
+                var studentFirstName = inputService.GetValidString("Enter student first name: ");
+                var studentSurname = inputService.GetValidString("Enter student surname: ");
+                var studentNumber = inputService.GetValidInteger("Enter student number: ");
 
                 Student newStudent = new Student
                 {
-                    Name = name,
-                    Surname = surname,
-                    StudentNumber = studentNumber
+                    FirstName = studentFirstName,
+                    Surname = studentSurname,
+                    Number = studentNumber
                 };
 
                 linkedStudentsService.AddOrUpdateStudent(newStudent);
+
                 break;
             }
-
         case "2":
             {
-                Console.Write("Search student by surname: ");
-                var surname = Console.ReadLine();
-                var wasStudentFound = linkedStudentsService.TrySearchStudentBySurname(surname, out var student);
+                var studentSurname = inputService.GetValidString("Search student by his surname: ");
+                var wasStudentFound = linkedStudentsService.TrySearchStudentBySurname(studentSurname, out var student);
                 if (!wasStudentFound)
                 {
-                    Console.WriteLine($"Student with surname: '{surname}' was not found.");
+                    Console.WriteLine($"Student with surname: '{studentSurname}' was not found.");
                 }
                 else
                 {
@@ -50,7 +45,17 @@ while (true)
             }
         case "3":
             {
-                Console.WriteLine("Search by number is not implemented");
+                var studentNumber = inputService.GetValidInteger("Search student by his number: ");
+                var wasStudentFound = linkedStudentsService.TrySearchStudentByNumber(studentNumber, out var student);
+                if (!wasStudentFound)
+                {
+                    Console.WriteLine($"Student with number: '{studentNumber}' was not found.");
+                }
+                else
+                {
+                    linkedStudentsService.DisplaySingleStudent(student);
+                }
+
                 break;
             }
         case "4":
