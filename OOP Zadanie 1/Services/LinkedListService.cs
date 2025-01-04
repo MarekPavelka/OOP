@@ -48,7 +48,7 @@ namespace OOP_Zadanie_1.Services
             {
                 return false;
             }
-            
+
             var currentNode = head;
             while (true)
             {
@@ -87,8 +87,8 @@ namespace OOP_Zadanie_1.Services
                     return false;
                 }
 
-                var hasCurrentNodeSameSurname = currentNode.Student.Number == studentNumber;
-                if (hasCurrentNodeSameSurname)
+                var hasCurrentNodeSameNumber = currentNode.Student.Number == studentNumber;
+                if (hasCurrentNodeSameNumber)
                 {
                     student = currentNode.Student;
                     return true;
@@ -96,6 +96,36 @@ namespace OOP_Zadanie_1.Services
 
                 currentNode = currentNode.Next;
             }
+        }
+
+        public bool DeleteStudent(int studentNumber)
+        {
+            if (head == null)
+            {
+                return false;
+            }
+
+            var isHeadNodeToDelete = head.Student.Number == studentNumber;
+            if (isHeadNodeToDelete)
+            {
+                head = head.Next;
+                return true;
+            }
+
+            var currentNode = head;
+            while (!IsLastNode(currentNode))
+            {
+                var isNodeToDelete = currentNode.Next.Student.Number == studentNumber;
+                if (isNodeToDelete)
+                {
+                    BypassNodeToDelete(currentNode);
+                    return true;
+                }
+
+                currentNode = currentNode.Next;
+            }
+
+            return false;
         }
 
         public void DisplayAllStudents()
@@ -135,6 +165,11 @@ namespace OOP_Zadanie_1.Services
         private bool IsLastNode(Node currentNode)
         {
             return currentNode.Next == null;
+        }
+
+        private void BypassNodeToDelete(Node currentNode)
+        {
+            currentNode.Next = currentNode.Next.Next;
         }
     }
 }

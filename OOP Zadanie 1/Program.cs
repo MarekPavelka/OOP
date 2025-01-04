@@ -6,7 +6,7 @@ var inputService = new ConsoleInputService();
 
 while (true)
 {
-    Console.WriteLine("\nEnter 1 add/update a student, 2 search student by his surname, 3 search student by his number, 4 display all students, 0 exit");
+    Console.WriteLine("\nEnter 1 add/update a student, 2 search student by his surname, 3 search student by his number, 4 display all students, 5 delete student by number, 0 exit");
     var input = Console.ReadLine();
 
     switch (input)
@@ -65,7 +65,17 @@ while (true)
             }
         case "5":
             {
-                Console.WriteLine("Delete by number is not implemented");
+                var studentNumber = inputService.GetValidInteger("Search student by his number: ");
+                var wasStudentFound = linkedStudentsService.TrySearchStudentByNumber(studentNumber, out var student);
+                if (!wasStudentFound)
+                {
+                    Console.WriteLine($"Student with number: '{studentNumber}' was not found.");
+                }
+                else
+                {
+                    linkedStudentsService.DeleteStudent(studentNumber);
+                }
+                
                 break;
             }
 
