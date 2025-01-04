@@ -5,6 +5,12 @@ namespace OOP_Zadanie_1.Services
     public class LinkedListService
     {
         private Node? head;
+        private ConsoleService _consoleService;
+
+        public LinkedListService(ConsoleService consoleService)
+        {
+            _consoleService = consoleService;
+        }
 
         public void AddOrUpdateStudent(Student student)
         {
@@ -13,7 +19,8 @@ namespace OOP_Zadanie_1.Services
             {
                 var newNode = new Node { Student = student };
                 head = newNode;
-                Console.WriteLine($"Added new student with number '{student.Number}'");
+                _consoleService.DisplayAddedMsg(student);
+
                 return;
             }
 
@@ -24,7 +31,8 @@ namespace OOP_Zadanie_1.Services
                 if (hasCurrentNodeSameStudentId)
                 {
                     UpdateStudent(currentNode, student);
-                    Console.WriteLine($"Updated existing student with number '{student.Number}'");
+                    _consoleService.DisplayUpdatedMsg(student);
+
                     return;
                 }
 
@@ -32,7 +40,8 @@ namespace OOP_Zadanie_1.Services
                 {
                     var newNode = new Node { Student = student };
                     currentNode.Next = newNode;
-                    Console.WriteLine($"Added new student '{student.FirstName} {student.Surname}' with number '{student.Number}'");
+                    _consoleService.DisplayAddedMsg(student);
+
                     break;
                 }
 
@@ -52,35 +61,32 @@ namespace OOP_Zadanie_1.Services
             return SearchStudentInList(predicate, out student);
         }
 
-        public bool DeleteStudent(int studentNumber)
+        public void DeleteStudent(int studentNumber)
         {
-            if (head == null)
-            {
-                return false;
-            }
-
-            var shouldDeleteHeadNode = head.Student.Number == studentNumber;
+            var shouldDeleteHeadNode = head?.Student.Number == studentNumber;
             if (shouldDeleteHeadNode)
             {
-                head = head.Next;
-                return true;
+                head = head?.Next;
+                _consoleService.DisplayDeletedMsg(studentNumber);
+
+                return;
             }
 
             Func<Node, bool> predicate = node => node.Next != null && node.Next.Student.Number == studentNumber;
             Action<Node> action = BypassNodeToDelete;
 
-            return SearchStudentInList(predicate, out var _, BypassNodeToDelete);
+            SearchStudentInList(predicate, out var _, BypassNodeToDelete);
+            _consoleService.DisplayDeletedMsg(studentNumber);
         }
 
         public void DisplayAllStudents()
         {
             if (head == null)
             {
-                Console.WriteLine("No students in the list.");
+                _consoleService.DisplayEmptyListMsg();
                 return;
             }
 
-            Console.WriteLine("Students:");
             var currentNode = head;
 
             while (true)
@@ -90,14 +96,11 @@ namespace OOP_Zadanie_1.Services
                     break;
                 }
 
-                DisplaySingleStudent(currentNode.Student);
+                _consoleService.DisplaySingleStudent(currentNode.Student, drawSeparationLines: false);
                 currentNode = currentNode.Next;
             }
-        }
 
-        public void DisplaySingleStudent(Student student)
-        {
-            Console.WriteLine($"Name: {student.FirstName}, Surname: {student.Surname}, Number: {student.Number}");
+            Console.WriteLine($"------------------------------------------\n");
         }
 
         #region private
@@ -118,6 +121,7 @@ namespace OOP_Zadanie_1.Services
                 {
                     student = currentNode.Student;
                     action?.Invoke(currentNode);
+
                     return true;
                 }
 

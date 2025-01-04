@@ -1,21 +1,21 @@
 ﻿using OOP_Zadanie_1.Models;
 using OOP_Zadanie_1.Services;
 
-var linkedStudentsService = new LinkedListService();
-var inputService = new ConsoleInputService();
+var consoleService = new ConsoleService();
+var linkedStudentsService = new LinkedListService(consoleService);
 
 while (true)
 {
-    Console.WriteLine("\nEnter 1 add/update a student, 2 search student by his surname, 3 search student by his number, 4 display all students, 5 delete student by number, 0 exit");
-    var input = Console.ReadLine();
+    consoleService.DisplayMenu();
+    var userInput = consoleService.GetValidInteger(drawSeparationLine: true);
 
-    switch (input)
+    switch (userInput)
     {
-        case "1":
+        case 1:
             {
-                var studentFirstName = inputService.GetValidString("Enter student first name: ");
-                var studentSurname = inputService.GetValidString("Enter student surname: ");
-                var studentNumber = inputService.GetValidInteger("Enter student number: ");
+                var studentFirstName = consoleService.GetValidString("Enter student first name: ");
+                var studentSurname = consoleService.GetValidString("Enter student surname: ");
+                var studentNumber = consoleService.GetValidInteger("Enter student number: ");
 
                 Student newStudent = new Student
                 {
@@ -28,48 +28,48 @@ while (true)
 
                 break;
             }
-        case "2":
+        case 2:
             {
-                var studentSurname = inputService.GetValidString("Search student by his surname: ");
+                var studentSurname = consoleService.GetValidString("Search student by his surname: ");
                 var wasStudentFound = linkedStudentsService.TrySearchStudentBySurname(studentSurname, out var student);
                 if (!wasStudentFound)
                 {
-                    Console.WriteLine($"Student with surname: '{studentSurname}' was not found.");
+                    consoleService.DisplayNotFoundMsg(studentSurname);
                 }
                 else
                 {
-                    linkedStudentsService.DisplaySingleStudent(student);
+                    consoleService.DisplaySingleStudent(student);
                 }
 
                 break;
             }
-        case "3":
-            {
-                var studentNumber = inputService.GetValidInteger("Search student by his number: ");
+        case 3:
+            {                
+                var studentNumber = consoleService.GetValidInteger("Search student by his number: ");
                 var wasStudentFound = linkedStudentsService.TrySearchStudentByNumber(studentNumber, out var student);
                 if (!wasStudentFound)
                 {
-                    Console.WriteLine($"Student with number: '{studentNumber}' was not found.");
+                    consoleService.DisplayNotFoundMsg(studentNumber);
                 }
                 else
                 {
-                    linkedStudentsService.DisplaySingleStudent(student);
+                    consoleService.DisplaySingleStudent(student);
                 }
 
                 break;
             }
-        case "4":
+        case 4:
             {
                 linkedStudentsService.DisplayAllStudents();
                 break;
             }
-        case "5":
+        case 5:
             {
-                var studentNumber = inputService.GetValidInteger("Search student by his number: ");
+                var studentNumber = consoleService.GetValidInteger("Delete student by his number: ");
                 var wasStudentFound = linkedStudentsService.TrySearchStudentByNumber(studentNumber, out var student);
                 if (!wasStudentFound)
                 {
-                    Console.WriteLine($"Student with number: '{studentNumber}' was not found.");
+                    consoleService.DisplayNotFoundMsg(studentNumber);
                 }
                 else
                 {
@@ -78,8 +78,7 @@ while (true)
                 
                 break;
             }
-
-        case "0":
+        case 0:
             {
                 break;
             }
