@@ -13,7 +13,7 @@ namespace OOP_Zadanie_1.Services
             {
                 var newNode = new Node { Student = student };
                 head = newNode;
-                Console.WriteLine($"Added new student with number: '{student.Number}'");
+                Console.WriteLine($"Added new student with number '{student.Number}'");
                 return;
             }
 
@@ -24,7 +24,7 @@ namespace OOP_Zadanie_1.Services
                 if (hasCurrentNodeSameStudentId)
                 {
                     UpdateStudent(currentNode, student);
-                    Console.WriteLine($"Updated existing student with number: '{student.Number}'");
+                    Console.WriteLine($"Updated existing student with number '{student.Number}'");
                     return;
                 }
 
@@ -32,7 +32,7 @@ namespace OOP_Zadanie_1.Services
                 {
                     var newNode = new Node { Student = student };
                     currentNode.Next = newNode;
-                    Console.WriteLine($"Added new student: '{student.FirstName} {student.Surname}' with number: '{student.Number}'");
+                    Console.WriteLine($"Added new student '{student.FirstName} {student.Surname}' with number '{student.Number}'");
                     break;
                 }
 
@@ -42,60 +42,14 @@ namespace OOP_Zadanie_1.Services
 
         public bool TrySearchStudentBySurname(string studentSurname, out Student? student)
         {
-            student = null;
-
-            if (head == null)
-            {
-                return false;
-            }
-
-            var currentNode = head;
-            while (true)
-            {
-                var isEndOfList = currentNode == null;
-                if (isEndOfList)
-                {
-                    return false;
-                }
-
-                var hasCurrentNodeSameSurname = currentNode.Student.Surname == studentSurname;
-                if (hasCurrentNodeSameSurname)
-                {
-                    student = currentNode.Student;
-                    return true;
-                }
-
-                currentNode = currentNode.Next;
-            }
+            Func<Node, bool> predicate = node => node.Student.Surname == studentSurname;
+            return SearchStudentInList(predicate, out student);
         }
 
         public bool TrySearchStudentByNumber(int studentNumber, out Student? student)
         {
-            student = null;
-
-            if (head == null)
-            {
-                return false;
-            }
-
-            var currentNode = head;
-            while (true)
-            {
-                var isEndOfList = currentNode == null;
-                if (isEndOfList)
-                {
-                    return false;
-                }
-
-                var hasCurrentNodeSameNumber = currentNode.Student.Number == studentNumber;
-                if (hasCurrentNodeSameNumber)
-                {
-                    student = currentNode.Student;
-                    return true;
-                }
-
-                currentNode = currentNode.Next;
-            }
+            Func<Node, bool> predicate = node => node.Student.Number == studentNumber;
+            return SearchStudentInList(predicate, out student);
         }
 
         public bool DeleteStudent(int studentNumber)
@@ -105,27 +59,17 @@ namespace OOP_Zadanie_1.Services
                 return false;
             }
 
-            var isHeadNodeToDelete = head.Student.Number == studentNumber;
-            if (isHeadNodeToDelete)
+            var shouldDeleteHeadNode = head.Student.Number == studentNumber;
+            if (shouldDeleteHeadNode)
             {
                 head = head.Next;
                 return true;
             }
 
-            var currentNode = head;
-            while (!IsLastNode(currentNode))
-            {
-                var isNodeToDelete = currentNode.Next.Student.Number == studentNumber;
-                if (isNodeToDelete)
-                {
-                    BypassNodeToDelete(currentNode);
-                    return true;
-                }
+            Func<Node, bool> predicate = node => node.Next != null && node.Next.Student.Number == studentNumber;
+            Action<Node> action = BypassNodeToDelete;
 
-                currentNode = currentNode.Next;
-            }
-
-            return false;
+            return SearchStudentInList(predicate, out var _, BypassNodeToDelete);
         }
 
         public void DisplayAllStudents()
@@ -138,15 +82,15 @@ namespace OOP_Zadanie_1.Services
 
             Console.WriteLine("Students:");
             var currentNode = head;
+
             while (true)
             {
-                var isEndOfList = currentNode == null;
-                if (isEndOfList)
+                if (IsEndOfList(currentNode))
                 {
                     break;
                 }
 
-                Console.WriteLine($"Name: {currentNode.Student.FirstName}, Surname: {currentNode.Student.Surname}, Number: {currentNode.Student.Number}");
+                DisplaySingleStudent(currentNode.Student);
                 currentNode = currentNode.Next;
             }
         }
@@ -154,6 +98,33 @@ namespace OOP_Zadanie_1.Services
         public void DisplaySingleStudent(Student student)
         {
             Console.WriteLine($"Name: {student.FirstName}, Surname: {student.Surname}, Number: {student.Number}");
+        }
+
+        #region private
+        private bool SearchStudentInList(Func<Node, bool> predicate, out Student? student, Action<Node>? action = null)
+        {
+            student = null;
+
+            if (head == null)
+            {
+                return false;
+            }
+
+            var currentNode = head;
+
+            while (!IsEndOfList(currentNode))
+            {
+                if (predicate(currentNode))
+                {
+                    student = currentNode.Student;
+                    action?.Invoke(currentNode);
+                    return true;
+                }
+
+                currentNode = currentNode.Next;
+            }
+
+            return false;
         }
 
         private void UpdateStudent(Node currentNode, Student newStudent)
@@ -167,9 +138,15 @@ namespace OOP_Zadanie_1.Services
             return currentNode.Next == null;
         }
 
+        private bool IsEndOfList(Node currentNode)
+        {
+            return currentNode == null;
+        }
+
         private void BypassNodeToDelete(Node currentNode)
         {
             currentNode.Next = currentNode.Next.Next;
         }
+        #endregion
     }
 }
