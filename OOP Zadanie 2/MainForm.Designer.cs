@@ -1,10 +1,12 @@
-﻿using OOP_Zadanie_2.Models;
+﻿using Newtonsoft.Json;
+using OOP_Zadanie_2.Models;
+using System.Text.Json;
 
 namespace OOP_Zadanie_2
 {
     public partial class MainForm : Form
     {
-        private System.ComponentModel.IContainer components = null; //  required designer variable.
+        private System.ComponentModel.IContainer components = null; //  required designer variable
         private Color _currentColor = Color.Red;
         private Point? _startPoint = null;
         private List<Line> _lines = new List<Line>();
@@ -19,22 +21,38 @@ namespace OOP_Zadanie_2
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "MainForm";
+            SuspendLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1412, 710);
+            Margin = new Padding(3, 2, 3, 2);
+            Name = "MainForm";
+            Text = "MainForm";
+            ResumeLayout(false);
         }
 
         private void SetupUI()
         {
             var menuStrip = new MenuStrip();
-            var menu = new ToolStripMenuItem("File");
+            
+            var fileMenu = new ToolStripMenuItem("File");
             var saveMenuItem = new ToolStripMenuItem("Save");
             var loadMenuItem = new ToolStripMenuItem("Load");
+            saveMenuItem.Click += SaveDrawing;
+            loadMenuItem.Click += LoadDrawing;
+            fileMenu.DropDownItems.Add(saveMenuItem);
+            fileMenu.DropDownItems.Add(loadMenuItem);
+            menuStrip.Items.Add(fileMenu);
+            
+            var clearMenu = new ToolStripMenuItem("Clear");
+            var clearAllMenuItem = new ToolStripMenuItem("All lines");
+            var clearLasMenuItem = new ToolStripMenuItem("Last line");
+            clearAllMenuItem.Click += ClearAllLines;
+            clearLasMenuItem.Click += ClearLastLine;
+            clearMenu.DropDownItems.Add(clearAllMenuItem);
+            clearMenu.DropDownItems.Add(clearLasMenuItem);
+            menuStrip.Items.Add(clearMenu);
 
-            menu.DropDownItems.Add(saveMenuItem);
-            menu.DropDownItems.Add(loadMenuItem);
-            menuStrip.Items.Add(menu);
             Controls.Add(menuStrip);
 
             var redButton = new Button { Text = "Red", BackColor = Color.Red, ForeColor = Color.White, Location = new Point(10, 30) };
@@ -101,17 +119,54 @@ namespace OOP_Zadanie_2
 
         private void DrawCurrentLine(PaintEventArgs e)
         {
-            if (_currentLine != null)
+            if (_currentLine == null)
             {
-                using var pen = new Pen(_currentLine.Color);
-                e.Graphics.DrawLine(pen, _currentLine.Start, _currentLine.End);
+                return;
             }
+
+            using var pen = new Pen(_currentLine.Color);
+            e.Graphics.DrawLine(pen, _currentLine.Start, _currentLine.End);
         }
 
         private void ResetCurrentLine()
         {
             _currentLine = null;
             _startPoint = null;
+        }
+
+        private void ClearAllLines(object sender, EventArgs e)
+        {
+        }
+
+        private void ClearLastLine(object sender, EventArgs e)
+        {
+        }
+
+        private void SaveDrawing(object sender, EventArgs e)
+        {
+            using var saveFileDialog = new SaveFileDialog { Filter = "JSON Files (*.json)|*.json" };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var json = JsonConvert.SerializeObject(_lines);
+                File.WriteAllText(saveFileDialog.FileName, json);
+            }
+
+            _lines.Clear();
+            RefreshWindow();
+        }
+
+        private void LoadDrawing(object sender, EventArgs e)
+        {
+            using var openFileDialog = new OpenFileDialog { Filter = "JSON Files (*.json)|*.json" };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var json = File.ReadAllText(openFileDialog.FileName);
+                _lines = JsonConvert.DeserializeObject<List<Line>>(json);
+            }
+
+            RefreshWindow();
         }
 
         private void RefreshWindow()
