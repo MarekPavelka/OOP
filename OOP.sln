@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOP Zadanie 1", "OOP Zadanie 1\OOP Zadanie 1.csproj", "{C1D7080F-792E-4D1B-A860-1E37ADDA2E80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OOP Zadanie 1", "OOP Zadanie 1\OOP Zadanie 1.csproj", "{C1D7080F-792E-4D1B-A860-1E37ADDA2E80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOP Calculator", "OOP Calculator\OOP Calculator.csproj", "{24142AB7-6990-4537-8149-FB3C31E1E4EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOP Zadanie 2", "OOP Zadanie 2\OOP Zadanie 2.csproj", "{91037874-93F4-45DD-8B2D-6BF9F2B4E3B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,17 @@ Global
 		{C1D7080F-792E-4D1B-A860-1E37ADDA2E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1D7080F-792E-4D1B-A860-1E37ADDA2E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1D7080F-792E-4D1B-A860-1E37ADDA2E80}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< Updated upstream
+		{91037874-93F4-45DD-8B2D-6BF9F2B4E3B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91037874-93F4-45DD-8B2D-6BF9F2B4E3B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91037874-93F4-45DD-8B2D-6BF9F2B4E3B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91037874-93F4-45DD-8B2D-6BF9F2B4E3B6}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{24142AB7-6990-4537-8149-FB3C31E1E4EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24142AB7-6990-4537-8149-FB3C31E1E4EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24142AB7-6990-4537-8149-FB3C31E1E4EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24142AB7-6990-4537-8149-FB3C31E1E4EE}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> Stashed changes
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
