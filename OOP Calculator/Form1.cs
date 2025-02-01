@@ -5,6 +5,6 @@ namespace OOP_Calculator
         public Form1()
         {
             InitializeComponent();
-        }
+        }       
     }
 }
