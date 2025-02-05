@@ -11,6 +11,7 @@ namespace OOP_Calculator
         string tempResult = string.Empty;
         string? operation;
         double result = 0.0;
+        private Dictionary<Button, float> originalFontSizes = new();
 
         public Form1()
         {
@@ -372,6 +373,42 @@ namespace OOP_Calculator
             }
 
             SaveResultAndCleanup(result);
+        }
+
+        public void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            UpdateButtonFonts();
+        }
+
+        private void UpdateButtonFonts()
+        {
+            var isLayoutFullyRendered = mainLayout.RowCount >= 2 && mainLayout.ColumnCount >= 2;
+            if (!isLayoutFullyRendered)
+            {
+                return;
+            }
+
+            float buttonHeight = mainLayout.GetRowHeights().Skip(1).FirstOrDefault();
+            float buttonWidth = mainLayout.GetColumnWidths().FirstOrDefault();
+
+            float baseSize = 100f; // base size
+            float scalingFactor = Math.Min(buttonHeight, buttonWidth) / baseSize;
+
+            foreach (var control in mainLayout.Controls)
+            {
+                if (control is Button button)
+                {
+                    if (!originalFontSizes.ContainsKey(button))
+                    {
+                        originalFontSizes[button] = button.Font.Size; // store original size
+                    }
+
+                    float newFontSize = originalFontSizes[button] * scalingFactor;
+                    newFontSize = Math.Clamp(newFontSize, 12f, 32f); // adjust min/max
+
+                    button.Font = new Font(button.Font.FontFamily, newFontSize, button.Font.Style, GraphicsUnit.Point);
+                }
+            }
         }
 
         private string HandleAddition(double num1, double num2)

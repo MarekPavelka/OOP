@@ -1,4 +1,5 @@
-﻿namespace OOP_Calculator;
+﻿
+namespace OOP_Calculator;
 
 public partial class Form1 : Form
 {
@@ -16,11 +17,15 @@ public partial class Form1 : Form
         {
             components.Dispose();
         }
-        base.Dispose(disposing);                
+        base.Dispose(disposing);
     }
 
     protected void InitializeComponent()
     {
+        EnableResizing();
+        SizeChanged += Form1_SizeChanged;
+
+        mainLayout = new TableLayoutPanel();
         textBox1 = new TextBox();
         buttonNum1 = new Button();
         buttonNum2 = new Button();
@@ -41,6 +46,7 @@ public partial class Form1 : Form
         buttonBack = new Button();
         buttonC = new Button();
         buttonResult = new Button();
+
         SuspendLayout();
         // 
         // textBox1
@@ -51,7 +57,8 @@ public partial class Form1 : Form
         textBox1.Multiline = true;
         textBox1.Name = "textBox1";
         textBox1.Size = new Size(463, 93);
-        textBox1.TabIndex = 1;
+        textBox1.ReadOnly = true;
+        textBox1.TabStop = false;
         // 
         // buttonNum1
         // 
@@ -61,9 +68,9 @@ public partial class Form1 : Form
         buttonNum1.Margin = new Padding(4, 5, 4, 5);
         buttonNum1.Name = "buttonNum1";
         buttonNum1.Size = new Size(87, 80);
-        buttonNum1.TabIndex = 0;
         buttonNum1.Text = "1";
         buttonNum1.UseVisualStyleBackColor = false;
+        buttonNum1.Dock = DockStyle.Fill;
         buttonNum1.Click += ButtonNum1_Click;
         // 
         // buttonNum2
@@ -74,9 +81,9 @@ public partial class Form1 : Form
         buttonNum2.Margin = new Padding(4, 5, 4, 5);
         buttonNum2.Name = "buttonNum2";
         buttonNum2.Size = new Size(87, 80);
-        buttonNum2.TabIndex = 2;
         buttonNum2.Text = "2";
         buttonNum2.UseVisualStyleBackColor = false;
+        buttonNum2.Dock = DockStyle.Fill;
         buttonNum2.Click += ButtonNum2_Click;
         // 
         // buttonNum3
@@ -87,9 +94,9 @@ public partial class Form1 : Form
         buttonNum3.Margin = new Padding(4, 5, 4, 5);
         buttonNum3.Name = "buttonNum3";
         buttonNum3.Size = new Size(87, 80);
-        buttonNum3.TabIndex = 3;
         buttonNum3.Text = "3";
         buttonNum3.UseVisualStyleBackColor = false;
+        buttonNum3.Dock = DockStyle.Fill;
         buttonNum3.Click += ButtonNum3_Click;
         // 
         // buttonNum4
@@ -100,9 +107,9 @@ public partial class Form1 : Form
         buttonNum4.Margin = new Padding(4, 5, 4, 5);
         buttonNum4.Name = "buttonNum4";
         buttonNum4.Size = new Size(87, 80);
-        buttonNum4.TabIndex = 4;
         buttonNum4.Text = "4";
         buttonNum4.UseVisualStyleBackColor = false;
+        buttonNum4.Dock = DockStyle.Fill;
         buttonNum4.Click += ButtonNum4_Click;
         // 
         // buttonNum5
@@ -113,9 +120,9 @@ public partial class Form1 : Form
         buttonNum5.Margin = new Padding(4, 5, 4, 5);
         buttonNum5.Name = "buttonNum5";
         buttonNum5.Size = new Size(87, 80);
-        buttonNum5.TabIndex = 5;
         buttonNum5.Text = "5";
         buttonNum5.UseVisualStyleBackColor = false;
+        buttonNum5.Dock = DockStyle.Fill;
         buttonNum5.Click += ButtonNum5_Click;
         // 
         // buttonNum6
@@ -126,9 +133,9 @@ public partial class Form1 : Form
         buttonNum6.Margin = new Padding(4, 5, 4, 5);
         buttonNum6.Name = "buttonNum6";
         buttonNum6.Size = new Size(87, 80);
-        buttonNum6.TabIndex = 6;
         buttonNum6.Text = "6";
         buttonNum6.UseVisualStyleBackColor = false;
+        buttonNum6.Dock = DockStyle.Fill;
         buttonNum6.Click += ButtonNum6_Click;
         // 
         // buttonNum7
@@ -139,9 +146,9 @@ public partial class Form1 : Form
         buttonNum7.Margin = new Padding(4, 5, 4, 5);
         buttonNum7.Name = "buttonNum7";
         buttonNum7.Size = new Size(87, 80);
-        buttonNum7.TabIndex = 7;
         buttonNum7.Text = "7";
         buttonNum7.UseVisualStyleBackColor = false;
+        buttonNum7.Dock = DockStyle.Fill;
         buttonNum7.Click += ButtonNum7_Click;
         // 
         // buttonNum8
@@ -152,9 +159,9 @@ public partial class Form1 : Form
         buttonNum8.Margin = new Padding(4, 5, 4, 5);
         buttonNum8.Name = "buttonNum8";
         buttonNum8.Size = new Size(87, 80);
-        buttonNum8.TabIndex = 8;
         buttonNum8.Text = "8";
         buttonNum8.UseVisualStyleBackColor = false;
+        buttonNum8.Dock = DockStyle.Fill;
         buttonNum8.Click += ButtonNum8_Click;
         // 
         // buttonNum9
@@ -165,9 +172,9 @@ public partial class Form1 : Form
         buttonNum9.Margin = new Padding(4, 5, 4, 5);
         buttonNum9.Name = "buttonNum9";
         buttonNum9.Size = new Size(87, 80);
-        buttonNum9.TabIndex = 9;
         buttonNum9.Text = "9";
         buttonNum9.UseVisualStyleBackColor = false;
+        buttonNum9.Dock = DockStyle.Fill;
         buttonNum9.Click += ButtonNum9_Click;
         // 
         // buttonNum0
@@ -178,9 +185,9 @@ public partial class Form1 : Form
         buttonNum0.Margin = new Padding(4, 5, 4, 5);
         buttonNum0.Name = "buttonNum0";
         buttonNum0.Size = new Size(87, 80);
-        buttonNum0.TabIndex = 10;
         buttonNum0.Text = "0";
         buttonNum0.UseVisualStyleBackColor = false;
+        buttonNum0.Dock = DockStyle.Fill;
         buttonNum0.Click += ButtonNum0_Click;
         // 
         // buttonToggleSign
@@ -191,9 +198,9 @@ public partial class Form1 : Form
         buttonToggleSign.Margin = new Padding(4, 5, 4, 5);
         buttonToggleSign.Name = "buttonToggleSign";
         buttonToggleSign.Size = new Size(87, 80);
-        buttonToggleSign.TabIndex = 11;
         buttonToggleSign.Text = "+/-";
         buttonToggleSign.UseVisualStyleBackColor = false;
+        buttonToggleSign.Dock = DockStyle.Fill;
         buttonToggleSign.Click += ButtonToggleSign_Click;
         // 
         // buttonDot
@@ -204,9 +211,9 @@ public partial class Form1 : Form
         buttonDot.Margin = new Padding(4, 5, 4, 5);
         buttonDot.Name = "buttonDot";
         buttonDot.Size = new Size(87, 80);
-        buttonDot.TabIndex = 12;
         buttonDot.Text = ".";
         buttonDot.UseVisualStyleBackColor = false;
+        buttonDot.Dock = DockStyle.Fill;
         buttonDot.Click += ButtonDot_Click;
         // 
         // buttonAdd
@@ -217,9 +224,9 @@ public partial class Form1 : Form
         buttonAdd.Margin = new Padding(4, 5, 4, 5);
         buttonAdd.Name = "buttonAdd";
         buttonAdd.Size = new Size(87, 80);
-        buttonAdd.TabIndex = 13;
         buttonAdd.Text = "+";
         buttonAdd.UseVisualStyleBackColor = false;
+        buttonAdd.Dock = DockStyle.Fill;
         buttonAdd.Click += ButtonAdd_Click;
         // 
         // buttonSubtract
@@ -230,9 +237,9 @@ public partial class Form1 : Form
         buttonSubtract.Margin = new Padding(4, 5, 4, 5);
         buttonSubtract.Name = "buttonSubtract";
         buttonSubtract.Size = new Size(87, 80);
-        buttonSubtract.TabIndex = 14;
         buttonSubtract.Text = "-";
         buttonSubtract.UseVisualStyleBackColor = false;
+        buttonSubtract.Dock = DockStyle.Fill;
         buttonSubtract.Click += ButtonSubtract_Click;
         // 
         // buttonMultiply
@@ -243,9 +250,9 @@ public partial class Form1 : Form
         buttonMultiply.Margin = new Padding(4, 5, 4, 5);
         buttonMultiply.Name = "buttonMultiply";
         buttonMultiply.Size = new Size(87, 80);
-        buttonMultiply.TabIndex = 12;
         buttonMultiply.Text = "x";
         buttonMultiply.UseVisualStyleBackColor = false;
+        buttonMultiply.Dock = DockStyle.Fill;
         buttonMultiply.Click += ButtonMultiply_Click;
         // 
         // buttonDivide
@@ -256,9 +263,9 @@ public partial class Form1 : Form
         buttonDivide.Margin = new Padding(4, 5, 4, 5);
         buttonDivide.Name = "buttonDivide";
         buttonDivide.Size = new Size(85, 80);
-        buttonDivide.TabIndex = 15;
         buttonDivide.Text = "÷";
         buttonDivide.UseVisualStyleBackColor = false;
+        buttonDivide.Dock = DockStyle.Fill;
         buttonDivide.Click += ButtonDivide_Click;
         // 
         // buttonBack
@@ -269,9 +276,9 @@ public partial class Form1 : Form
         buttonBack.Margin = new Padding(4, 5, 4, 5);
         buttonBack.Name = "buttonBack";
         buttonBack.Size = new Size(87, 80);
-        buttonBack.TabIndex = 17;
         buttonBack.Text = "BACK";
         buttonBack.UseVisualStyleBackColor = false;
+        buttonBack.Dock = DockStyle.Fill;
         buttonBack.Click += ButtonBack_Click;
         // 
         // buttonC
@@ -282,9 +289,9 @@ public partial class Form1 : Form
         buttonC.Margin = new Padding(4, 5, 4, 5);
         buttonC.Name = "buttonC";
         buttonC.Size = new Size(87, 80);
-        buttonC.TabIndex = 18;
         buttonC.Text = "C";
         buttonC.UseVisualStyleBackColor = false;
+        buttonC.Dock = DockStyle.Fill;
         buttonC.Click += ButtonC_Click;
         // 
         // buttonResult
@@ -295,44 +302,121 @@ public partial class Form1 : Form
         buttonResult.Margin = new Padding(4, 5, 4, 5);
         buttonResult.Name = "buttonResult";
         buttonResult.Size = new Size(85, 170);
-        buttonResult.TabIndex = 19;
         buttonResult.Text = "=";
         buttonResult.UseVisualStyleBackColor = false;
+        buttonResult.Dock = DockStyle.Fill;
         buttonResult.Click += ButtonResult_Click;
+        //
+        // mainLayout
+        //        
+        mainLayout.Dock = DockStyle.Fill;
+        mainLayout.RowCount = 5; // 1 row for textbox, 4 rows for buttons
+        mainLayout.ColumnCount = 5;
+        mainLayout.Padding = new Padding(5);
+        SetProportionalResize(mainLayout);
+        AddElementsToLayout(mainLayout);
+        UpdateButtonFonts();
         // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(8F, 20F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.FromArgb(32, 32, 32);
-        ClientSize = new Size(500, 524);
-        Controls.Add(textBox1);
-        Controls.Add(buttonNum1);
-        Controls.Add(buttonNum2);
-        Controls.Add(buttonNum3);
-        Controls.Add(buttonNum4);
-        Controls.Add(buttonNum5);
-        Controls.Add(buttonNum6);
-        Controls.Add(buttonNum7);
-        Controls.Add(buttonNum8);
-        Controls.Add(buttonNum9);
-        Controls.Add(buttonNum0);
-        Controls.Add(buttonToggleSign);
-        Controls.Add(buttonDot);
-        Controls.Add(buttonAdd);
-        Controls.Add(buttonSubtract);
-        Controls.Add(buttonMultiply);
-        Controls.Add(buttonDivide);
-        Controls.Add(buttonBack);
-        Controls.Add(buttonC);
-        Controls.Add(buttonResult);
+        ClientSize = new Size(500, 600);
         Margin = new Padding(4, 5, 4, 5);
         Name = "Form1";
         Text = "Calculator";
+
+        Controls.Add(mainLayout);
+
         ResumeLayout(false);
         PerformLayout();
     }
 
+    private void EnableResizing()
+    {
+        this.FormBorderStyle = FormBorderStyle.Sizable;
+        this.MaximizeBox = true;
+        this.MinimumSize = new Size(300, 400);
+    }
+
+    private void SetProportionalResize(TableLayoutPanel layout)
+    {
+        PreventDuplicateStyles();
+
+        layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20F)); // 20% for textbox
+
+        for (int i = 1; i < layout.RowCount; i++)
+        {
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 20F)); // 4 x 20% for buttons
+        }
+
+        for (int i = 0; i < layout.ColumnCount; i++)
+        {
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+        }
+
+        #region local
+        void PreventDuplicateStyles()
+        {
+            layout.ColumnStyles.Clear();
+            layout.RowStyles.Clear();
+        }
+        #endregion
+    }
+
+
+    private void AddElementsToLayout(TableLayoutPanel layout)
+    {
+        layout.Controls.Add(textBox1, column: 0, row: 0);
+        layout.SetColumnSpan(textBox1, 5);
+        textBox1.Dock = DockStyle.Fill;
+
+        var buttons = GetOrderedButtons();
+        int buttonIndex = 0;
+
+        for (int rowIndex = 1; rowIndex < layout.RowCount; rowIndex++)
+        {
+            for (int colIndex = 0; colIndex < layout.ColumnCount; colIndex++)
+            {
+                if (rowIndex == 3 && colIndex == 4)
+                {
+                    continue; // leave empty space for "=" button
+                }
+
+                if (buttonIndex < buttons.Count)
+                {
+                    layout.Controls.Add(buttons[buttonIndex], colIndex, rowIndex);
+                    buttonIndex++;
+                }
+            }
+        }
+
+        layout.Controls.Add(buttons[18], 4, 3);
+        mainLayout.SetRowSpan(buttons[18], 2); // span "=" button
+        SetTabIndexes(buttons);
+    }
+
+    private List<Button> GetOrderedButtons()
+    {
+        return new List<Button>
+        {
+            buttonNum7, buttonNum8, buttonNum9, buttonDivide, buttonBack,
+            buttonNum4, buttonNum5, buttonNum6, buttonMultiply, buttonC,
+            buttonNum1, buttonNum2, buttonNum3, buttonSubtract,            
+            buttonToggleSign, buttonNum0, buttonDot, buttonAdd, buttonResult
+        };
+    }
+
+    private void SetTabIndexes(List<Button> buttons)
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            buttons[i].TabIndex = i;
+        }
+    }
+
+    private TableLayoutPanel mainLayout;
     private TextBox textBox1;
     private Button buttonNum1;
     private Button buttonNum2;
