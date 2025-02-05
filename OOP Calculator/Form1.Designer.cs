@@ -291,10 +291,10 @@ public partial class Form1 : Form
         // 
         buttonResult.BackColor = Color.RoyalBlue;
         buttonResult.Font = new Font("Consolas", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        buttonResult.Location = new Point(395, 335);
+        buttonResult.Location = new Point(395, 331);
         buttonResult.Margin = new Padding(4, 5, 4, 5);
         buttonResult.Name = "buttonResult";
-        buttonResult.Size = new Size(85, 166);
+        buttonResult.Size = new Size(85, 170);
         buttonResult.TabIndex = 19;
         buttonResult.Text = "=";
         buttonResult.UseVisualStyleBackColor = false;
